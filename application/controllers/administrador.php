@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed'); 
 
-class Estudiantelte extends CI_Controller {
+class Administrador extends CI_Controller {
     public function indexlte()
 	{	
 		$this->load->view('administrador/board/cabecera');
