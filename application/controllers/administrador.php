@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed'); 
 
 class Administrador extends CI_Controller {
-    public function indexlte()
+    public function index()
 	{	
 		$this->load->view('administrador/board/cabecera');
 		$this->load->view('administrador/board/menuSuperior');
