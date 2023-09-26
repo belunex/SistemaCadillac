@@ -142,3 +142,4 @@
             <!-- /menu footer buttons -->
           </div>
         </div>
+        <div class="right_col" role="main">
