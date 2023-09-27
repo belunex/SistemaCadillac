@@ -30,6 +30,6 @@
     <link href="<?php echo base_url();?>/gentelella/build/css/custom.min.css" rel="stylesheet">
   </head>
 
-  <body class="nav-md">
+  <body class="nav-md" style="background-color: #7AB700">
     <div class="container body">
       <div class="main_container">
