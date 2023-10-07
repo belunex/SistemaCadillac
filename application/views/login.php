@@ -65,7 +65,7 @@
 									<!--end::Form group-->
 									<!--begin::Action-->
 									<div class="text-center pt-2">
-										<button id="kt_login_signin_submit" class="btn btn-dark font-weight-bolder font-size-h6 px-8 py-4 my-3">Sign In</button>
+										<button id="kt_login_signin_submit" class="btn btn-dark font-weight-bolder font-size-h6 px-8 py-4 my-3" style="border-color: #FF7B00; background-color: #FF7B00">Sign In</button>
 									</div>
 									<!--end::Action-->
 								</form>
