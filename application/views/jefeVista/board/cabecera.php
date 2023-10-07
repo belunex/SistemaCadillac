@@ -6,9 +6,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" href="<?php echo base_url();?>/gentelella/production/images/favicon.ico" type="image/ico" />
+	<link rel="icon" href="<?php echo base_url();?>/gentelella/production/images/iconCad.png" type="image/ico" />
 
-    <title>Gentelella Alela! | </title>
+    <title>SisCad</title>
 
     <!-- Bootstrap -->
     <link href="<?php echo base_url();?>/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -30,6 +30,6 @@
     <link href="<?php echo base_url();?>/gentelella/build/css/custom.min.css" rel="stylesheet">
   </head>
 
-  <body class="nav-md">
+  <body class="nav-md" style="background-color: #7AB700">
     <div class="container body">
       <div class="main_container">
