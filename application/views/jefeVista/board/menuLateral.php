@@ -29,19 +29,19 @@
                   </li>
                   <li><a><i class="fa fa-edit"></i>Formularios<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="form.html">Cliente</a></li>
-                      <li><a href="form_advanced.html">Vehiculo</a></li>
+                      <li><a href="<?php echo base_url();?>index.php/jefe/agregarCliente" class="menu-link">Cliente</a></li>
+                      <li><a href="<?php echo base_url();?>index.php/jefe/agregarVehiculo" class="menu-link">Vehiculo</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-table" ></i>Listado<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="general_elements.html">General Clientes</a></li>
+                      <li><a href="<?php echo base_url();?>index.php/jefe/Clientes">General Clientes</a></li>
                       <li><a href="media_gallery.html">Servicios</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-folder"></i>Recepción</a>
+                  <li><a href="<?php echo base_url();?>index.php/jefe/recepcion" class="menu-link"><i class="fa fa-folder"></i>Recepción</a>
                   </li>
-                  <li><a><i class="fa fa-folder-open"></i>Cotización</a>
+                  <li><a href="<?php echo base_url();?>index.php/jefe/cotizacion" class="menu-link"><i class="fa fa-folder-open"></i>Cotización</a>
                   </li>
                 </ul>
               </div>
