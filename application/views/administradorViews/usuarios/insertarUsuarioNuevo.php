@@ -6,7 +6,7 @@
       <!-- /.card-header -->
       <!-- form start -->
         <?php
-            echo form_open_multipart('');
+            echo form_open_multipart('administrador/agregarUsuariobd');
         ?>      
             <div class="card-body">
                 <div class="row">
@@ -30,7 +30,7 @@
                     <div class="col-sm-5">
                         <div class="form-group">
                             <label for="numeroTel">Primer Apellido:</label>
-                            <input type="numero" class="form-control" id="primerApellido" name="primerApellido">
+                            <input type="text" class="form-control" id="primerApellido" name="primerApellido">
                         </div>
                     </div>
                     <div class="col-sm-5">
@@ -50,7 +50,7 @@
                     <div class="col-sm-3">  
                         <div class="form-group">
                             <label for="correo">CI:</label>
-                            <input type="email" class="form-control" id="ci" name="ci">
+                            <input type="text" class="form-control" id="ci" name="ci">
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -62,7 +62,7 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label for="numeroTel">Telefono Celular:</label>
-                            <input type="numero" class="form-control" id="numeroTelefono" name="numeroTelefono">
+                            <input type="text" class="form-control" id="numeroTelefono" name="numeroTelefono">
                         </div>
                     </div>
                     <div class="col-1">
@@ -76,7 +76,7 @@
                     <div class="col-sm-5">
                         <div class="form-group">
                             <label for="numeroTel">Direccion:</label>
-                            <input type="numero" class="form-control" id="direccion" name="direccion">
+                            <input type="text" class="form-control" id="direccion" name="direccion">
                         </div>
                     </div>
                     <div class="col-sm-5">
@@ -87,6 +87,41 @@
                     </div>
                     <div class="col-1">
                     
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+              
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label for="numeroTel">Usuario:</label>
+                            <input type="text" class="form-control" id="direccion" required="required" name="nombreUsuario" disabled value="El sistema proporcionarar un Usuario">
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label for="nombrecompleto">Contraseña:</label>
+                            <input type="text" class="form-control" id="correoElectronico" required="required" name="contrasenia" disabled value="El sistema proporcionarar una Contraseña">
+                        </div>
+                    </div>
+                    <div class="col-1">
+                    
+                    </div>
+                </div>                
+                <div class="row">
+                    <div class="col-1">
+                        
+                    </div>
+                    <div class="col-sm-6">
+                        <select class="form-control" id="rol" name="rol">
+                            <option value="" selected disabled>Seleccione que rol tendra el Usuario nuevo</option>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Empleado">Empleado</option>
+                        </select>
+                    </div>
+                    <div class="col-1">
+                        
                     </div>
                 </div>
             </div>
