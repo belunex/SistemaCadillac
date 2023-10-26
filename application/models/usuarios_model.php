@@ -1,10 +1,10 @@
 <?php
     class Usuarios_model extends CI_Model{
 
-        public function validarIngresoAdmin($login,$password)
+        public function validar($login,$password)
         {
-            $this->db->select('id, CONCAT(nombres," ",primerApellido," ",IFNULL(segundoApellido,"")) AS nameUser,
-                                nombreUsuario, fechaRegistro, rolUsuario');
+            $this->db->select('id, CONCAT(nombres," ",primerApellido," ",IFNULL(segundoApellido,"")) AS nameUser, ci, fechaContratacion,
+                                numeroTelefono, direccion, correoElectronico, nombreUsuario, contrasenia, rolUsuario, fechaRegistro');
             $this->db->from('usuarios');
             $this->db->where('nombreUsuario',$login);
             $this->db->where('contrasenia',$password);
@@ -30,7 +30,7 @@
             $this->db->insert('usuarios',$data);
         }
 
-        public function recuperarUsuario($idUsuario)
+        public function recuperarUsuario($idUsuario)//este es recuvaUsert
         {
             $this->db->select('*');
             $this->db->from('usuarios');
@@ -42,6 +42,12 @@
         {
             $this->db->where('id',$idUsuario);
             $this->db->update('usuarios',$data);
+        }
+
+        public function deshabilitarUsuario($idUsuario,$data)
+        {
+            $this->db->where('id',$idUsuario);
+            $this->db->update('clientes',$data); 
         }
     }
 ?>
