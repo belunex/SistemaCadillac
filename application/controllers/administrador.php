@@ -4,54 +4,70 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Administrador extends CI_Controller {
     public function index()
 	{	
-		//if($this->session->userdata('login'))
-		//{
+		if($this->session->userdata('login'))
+		{
+			$listaUsuarios = $this->usuarios_model->listaUsuarios();
+			$data['listaUsuarios'] = $listaUsuarios;
+
+			$this->load->view('administradorViews/board/cabecera');
+			$this->load->view('administradorViews/board/menuSuperior');
+			$this->load->view('administradorViews/board/menuLateral');
+			$this->load->view('administradorViews/usuarios/listaUsuarios',$data);
+			$this->load->view('administradorViews/board/pie');
+		}
+		else
+		{
+			redirect('usuario/index','refresh');
+		}
+	}	
+
+
+	/*public function usuarios()
+	{
+		$listaUsuarios = $this->usuario_model->listaUsuarios();
+		$data['listaUsuarios'] = $listaUsuarios;
+
+		$this->load->view('administradorViews/board/cabecera');
+        $this->load->view('administradorViews/board/menuSuperior');
+        $this->load->view('administradorViews/board/menuLateral');
+		$this->load->view('administradorViews/usuarios/listaUsuarios',$data);
+        $this->load->view('administradorViews/board/pie');
+	}*/
+
+	public function cambioPassword()
+	{
+
+	}
+
+	public function verificarDatosPassword()
+	{
+
+	}
+
+/*------------------------------------------------USUARIOS-------------------------------------------*/
+
+
+	public function agregarNuevoUsuario()
+	{
+		if ($this->session->userdata('login')) 
+		{
 			$this->load->view('administradorViews/board/cabecera');
 			$this->load->view('administradorViews/board/menuSuperior');
 			$this->load->view('administradorViews/board/menuLateral');
 			$this->load->view('administradorViews/usuarios/insertarUsuarioNuevo');
 			$this->load->view('administradorViews/board/pie');
-	//	}
-	//	else
-	//	{
-			//redirect('usuario/index','refresh');
-	//	}
-	}	
-
-	public function crearUser()
-	{	
-        $this->load->view('administradorViews/board/cabecera');
-        $this->load->view('administradorViews/board/menuSuperior');
-        $this->load->view('administradorViews/board/menuLateral');
-		$this->load->view('administradorViews/crearUsuario');
-        $this->load->view('administradorViews/board/pie');
-	}
-
-	/*---------------------------------------USUARIOS---------------------------------------*/
-
-	public function usuarios()
-	{
-		$listaServicios = $this->servicio_model->listaServicios();
-		$data['listaServicios'] = $listaServicios;
-
-		$this->load->view('administradorViews/board/cabecera');
-        $this->load->view('administradorViews/board/menuSuperior');
-        $this->load->view('administradorViews/board/menuLateral');
-		$this->load->view('administradorViews/servicios/listaServicios',$data);
-        $this->load->view('administradorViews/board/pie');
-	}
-
-	public function agregarUsuario()
-	{
-		$this->load->view('administradorViews/board/cabecera');
-        $this->load->view('administradorViews/board/menuSuperior');
-        $this->load->view('administradorViews/board/menuLateral');
-		$this->load->view('administradorViews/servicios/insertarNuevoServicio');
-        $this->load->view('administradorViews/board/pie');
+		}
+		else
+		{
+			redirect('usuarios/index','refresh');
+		}
+		
 	}
 
 	public function agregarUsuariobd()
 	{
+		if ($this->session->userdata('login')) 
+		{
 			$data['nombres'] = $_POST['nombres'];
 			$data['primerApellido'] = $_POST['primerApellido'];
 			$data['segundoApellido'] = $_POST['segundoApellido'];
@@ -60,34 +76,54 @@ class Administrador extends CI_Controller {
 			$data['numeroTelefono'] = $_POST['numeroTelefono'];
 			$data['direccion'] = $_POST['direccion'];
 			$data['correoElectronico'] = $_POST['correoElectronico'];			
-			$data['rol'] = $_POST['rol'];
-			//$data['idUsuario'] = $this->session->userdata('idUsuario');
+			$data['tipo'] = $_POST['rolUsuario'];
+			$data['idUsuario'] = $this->session->userdata('idUsuario');
 
 
-			$nombres = $_POST['nombres'];
+			$nombre = $_POST['nombres'];
 			$primerApellido = $_POST['primerApellido'];
 			$segundoApellido = $_POST['segundoApellido'];
 			$correo = $_POST['correoElectronico'];
 
-			$nameCompleted = $nombres . ' ' . $primerApellido . ' ' . $segundoApellido;
+			$nombreCompletoReceptor = $nombre . ' ' . $primerApellido . ' ' . $segundoApellido;
 
-			$username = $this->generarUsuarioUnico($nombres, $primerApellido, $segundoApellido);
+			$username = $this->generarNombreUsuarioUnico($nombre, $primerApellido, $segundoApellido);
 
 			$data['nombreUsuario'] = $username;
 
-			$caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+=-';
-			$passw = substr(str_shuffle($caracteres), 0, 8);
+			$characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+=-';
+			$password = substr(str_shuffle($characters), 0, 8);
 
-			$data['contrasenia'] = md5($passw);
+			$data['contrasenia'] = md5($password);
 
-			$datosRegistro = array('nameUser' => $username, 'contraseniaUser' => $passw);
+			$datos_registro = array('nameUser' => $username, 'contraseniaUser' => $password);
 
-		$this->servicio_model->agregarUsuario($data);
+			$this->session->set_userdata('datos_registro', $datos_registro);
 
-		redirect('administradorViews/servicios','refresh');
+			    
+			$this->session->set_userdata('NombreReceptor', $nombreCompletoReceptor);
+			$this->session->set_userdata('nombreUsuarioReceptor', $username);
+			$this->session->set_userdata('contraseniaReceptor', $password);
+			$this->session->set_userdata('correoReceptor', $correo);
+
+			$this->load->library('upload', $config);
+
+			if (!$this->upload->do_upload()) {
+				$data['error'] = $this->upload->display_errors();
+			} else {
+				$this->usuarios_model->insertarUsuario($data); //trataba con base de datos
+				
+			}
+
+			redirect('administrador/index','refresh');
+		}
+		else
+		{
+			redirect('usuario/index','refresh');
+		}
 	}
 
-	public function generarUsuarioUnico($nombres, $primerApellido, $segundoApellido)
+	public function generarNombreUsuarioUnico($nombres, $primerApellido, $segundoApellido)
 	{
 		// Obtener las iniciales del nombre y apellidos
 		$iniciales = $this->obtenerIniciales($nombres, $primerApellido, $segundoApellido);
@@ -141,7 +177,7 @@ class Administrador extends CI_Controller {
 	private function verificarExistenciaNombreUsuario($nombreUsuario)
 	{
 		$usuarioExiste = false;
-		$consulta = $this->usuario_model->verificarNameUser($nombreUsuario);
+		$consulta = $this->usuarios_model->verificarNameUser($nombreUsuario);
 
 		if ($consulta->num_rows() > 0) {
 			$usuarioExiste = true;
@@ -165,40 +201,157 @@ class Administrador extends CI_Controller {
 		return $contrasenia;
 	}
 
+	public function validarContraseniaSegura($password)
+	{
+		$mayuscula = false;
+		$minuscula = false;
+		$numero = false;
+		$careSpecial = false;
+		$longitudMinima = 8;
+
+		for ($i = 0; $i < strlen($password); $i++) {
+			if (ctype_upper($password[$i])) {
+				$mayuscula = true;
+			} elseif (ctype_lower($password[$i])) {
+				$minuscula = true;
+			} elseif (ctype_digit($password[$i])) {
+				$numero = true;
+			} else {
+				$careSpecial = true;
+			}
+		}
+
+		if ($mayuscula && $minuscula && $numero && $careSpecial && strlen($password) >= $longitudMinima) {
+			return true;
+		}
+		return false;
+	}
+
+	public function mostrarDatosRegistro()
+	{
+		// Load PHPMailer library
+		$this->load->library('phpmailer_lib');
+
+		// PHPMailer object
+		$mail = $this->phpmailer_lib->load();
+
+		// SMTP configuration
+		$mail->isSMTP();
+		$mail->Host     = 'smtp.gmail.com';
+		$mail->SMTPAuth = true;
+		$mail->Username = 'siscadcadillac@gmail.com';
+		$mail->Password = 'endc cyse jiqb mqkj';
+		$mail->SMTPSecure = 'ssl';
+		$mail->Port     = 465;
+
+		// DE DONDE SE VA ENVIAR
+		$mail->setFrom('siscadcadillac@gmail.com', 'SISCAD ACCESOS PARA EL SISTEMA');
+		$mail->addReplyTo('siscadcadillac@gmail.com', 'SISCAD ACCESOS PARA EL SISTEMA');
+
+		// EL QUE RECIBIRA
+		$mail->addAddress($this->session->userdata('correoReceptor'));
+
+		//
+		$mail->Subject = 'Bienvenido a SISCAD - ACCESOS';
+
+		// Set email format to HTML
+		$mail->isHTML(true);
+
+		// Email body content
+		$mailContent = "<h1>ACCESOS SISCAD, por favor cambie la contraseña una vez ingrese al sistema</h1>
+            <p>Nombre de Usuario: " . $this->session->userdata('nombreUsuarioReceptor') . " </p></hr>
+			<p>Password: " . $this->session->userdata('contraseniaReceptor') . " </p></hr>
+			";
+		$mail->Body = $mailContent;
+
+		// Send email
+		if (!$mail->send()) {
+			echo 'Message could not be sent.';
+			echo 'Mailer Error: ' . $mail->ErrorInfo;
+		} else {
+			$this->load->view('administradorViews/usuarios/view_registro');
+		}
+		
+	}
+
 
 	public function modificarUsuario()
 	{
-		$idServicio=$_POST['idServicio'];
-		$data['infoVehiculo']=$this->servicio_model->recuperarUsuario($idServicio);
+		if ($this->session->userdata('login')) 
+		{
+			$idUsuario=$_POST['idUsuario'];
+			$data['infoUsuario']=$this->usuarios_model->recuperarUsuario($idUsuario);
 
-		$this->load->view('administradorViews/board/cabecera');
-        $this->load->view('administradorViews/board/menuSuperior');
-        $this->load->view('administradorViews/board/menuLateral');
-		$this->load->view('administradorViews/servicios/modificarServicios',$data);
-        $this->load->view('administradorViews/board/pie');
+			$this->load->view('administradorViews/board/cabecera');
+			$this->load->view('administradorViews/board/menuSuperior');
+			$this->load->view('administradorViews/board/menuLateral');
+			$this->load->view('administradorViews/servicios/modificarServicios',$data);
+			$this->load->view('administradorViews/board/pie');
+
+		}
+		else
+		{
+			redirect('usuario/index', 'refresh');
+		}		
 	}
 
 	public function modificarUsuariobd()
 	{
-		$idServicio=$_POST['idServicio'];
+		if ($this->session->userdata('login')) 
+		{
+			$idUsuario=$_POST['idUsuario'];
 
-		$data['tipoServicio'] = $_POST['tipoServicio'];
-		$data['descripcion'] = $_POST['descripcion'];
-		$data['precioBase'] = $_POST['precioBase'];
-		
-		$this->servicio_model->modificarServicio($idServicio,$data);
+			$data['nombres'] = $_POST['nombres'];
+			$data['primerApellido'] = $_POST['primerApellido'];
+			$data['segundoApellido'] = $_POST['segundoApellido'];
+			$data['ci'] = $_POST['ci'];
+			$data['fechaContratacion'] = $_POST['fechaContratacion'];
+			$data['numeroTelefono'] = $_POST['numeroTelefono'];
+			$data['direccion'] = $_POST['direccion'];
+			$data['correoElectronico'] = $_POST['correoElectronico'];
+			$data['nombreUsuario'] = $_POST['nombreUsuario'];			
+			$data['contrasenia'] = $_POST['contrasenia'];
+			$data['rol'] = $_POST['rol'];
+			
+			$data['fechaActualizacion'] = date('y-m-d H:i:s');
+			$data['idUsuario'] = $this->session->userdata('idUsuario');
 
-		redirect('administradorViews/servicios','refresh');
+			$config['allowed_types'] = 'jpg|png';
+			// cargamos la libreria con todos los parametros de configuracion
+			$this->load->library('upload', $config);
+
+			if (!$this->upload->do_upload()) {
+				$data['error'] = $this->upload->display_errors();
+			} else {
+				$this->usuarios_model->modificarUsuario($idUsuario, $data); //trataba con base de datos
+				$this->upload->data(); //copia el archivo en carpeta
+			}
+
+			redirect('administrador/index','refresh');
+		}
+		else
+		{
+			redirect('usuario/index', 'refresh');
+		}
 	}
 
 	public function deshabilitarUsuario()
 	{
-		$idServicio=$_POST['idServicio'];
-		$data['estado']='0';
-
-		$this->servicio_model->deshabilitarServicio($idServicio,$data);
-
-		redirect('administradorViews/servicios','refresh');
+		if ($this->session->userdata('login')) 
+		{
+			$data['fechaActualizacion'] = date('y-m-d H:i:s');
+			$datat['idUsuario'] = $this->session->userdata('idUsuario');
+			$idUsuario = $_POST['idUsuario'];
+			$data['estado'] = '0';
+			
+			$this->usuarios_model->deshabilitarUsuario($idUsuario,$data);
+		
+			redirect('administrador/index', 'refresh');
+		}	
+		else
+		{
+			redirect('usuario/index', 'refresh');
+		}
 	}
 
 	/*---------------------------------------SERVICIOS---------------------------------------*/
